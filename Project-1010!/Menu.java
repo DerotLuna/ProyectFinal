@@ -16,8 +16,9 @@ public class Menu{
   }
 
   public void playGame(){
-    World world = new World(players[0]);
+    byte dimension = 10;
+    World world = new World(players[0], dimension);
     world.initializeWorld();
+    world.movePiece();
   }
-
 }
