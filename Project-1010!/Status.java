@@ -1,6 +1,6 @@
 public abstract class Status{
-  
-  public abstract void getStatus();
+
+  public abstract String getStatusBox();
 }
 
 /*
