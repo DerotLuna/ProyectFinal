@@ -27,13 +27,14 @@ public class SquareBoard extends Board{
       rowAndColumn ++;
     }
   }
+
   public int getIdBoard(){
     return this.id;
   }
 
-  public boolean squareEvaluations(byte dimensionSquare, int positionBox, boolean checked){
+  public boolean squareEvaluations(byte sizeSquare, int positionBox, boolean checked){
 
-    if (dimensionSquare == 1){
+    if (sizeSquare == 1){
       if (boxes[positionBox].getStatusBox() != "FREE") checked = false;
     }
     else{ //sera general para todos las dimensiones de los cuadrados
@@ -41,9 +42,9 @@ public class SquareBoard extends Board{
       int referenceBox = positionBoxDown;
       byte counterExit = 1;
       exit:
-      while(counterExit < dimensionSquare){
+      while(counterExit < sizeSquare){
         byte counterJump = 1;
-        while(counterJump < dimensionSquare){
+        while(counterJump < sizeSquare){
           if(positionBoxDown >= numberOfBoxes || neighborhood[positionBox][positionBox + 1] == false){
             checked = false;
             break exit;
@@ -61,7 +62,7 @@ public class SquareBoard extends Board{
           counterJump ++;
         }
 
-        if (counterExit == dimensionSquare - 1){
+        if (counterExit == sizeSquare - 1){
           positionBoxDown ++;
           if (boxes[positionBoxDown].getStatusBox() != "FREE") checked = false;
         }
@@ -74,12 +75,12 @@ public class SquareBoard extends Board{
     return checked;
   }
 
-  public boolean lineEvaluations(byte lineSize, int positionBox, int answer, boolean checked){
+  public boolean lineEvaluations(byte sizeLine, int positionBox, int answer, boolean checked){
 
     byte counterExit = 1;
 
       if(answer == 1){
-        while(counterExit < lineSize){
+        while(counterExit < sizeLine){
           if(positionBox >= numberOfBoxes || neighborhood[positionBox][positionBox + 1] == false){
             checked = false;
             break;
@@ -95,7 +96,7 @@ public class SquareBoard extends Board{
         }
       }
       else{
-        while(counterExit < lineSize){
+        while(counterExit < sizeLine){
           if(positionBox >= numberOfBoxes || neighborhood[positionBox + dimension][positionBox] == false){
             checked = false;
             break;

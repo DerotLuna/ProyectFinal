@@ -27,84 +27,84 @@ public class Piece{
     return this.size;
   }
 
-  public void shapePieces(int shapeNumber){
-    if (shapeNumber == 1){
+  public void shapePieces(int number){
+    if (number == 1){
       this.size = 1;
       this.type = "Square";
     }
-    else if (shapeNumber == 2){
+    else if (number == 2){
       this.size = 2;//tiene 4 casillas por decirlo de una manera, esto puede funcionar para el score (si es que lo usamos asi)
       this.type = "Square";
     }
-    else if (shapeNumber == 3){
+    else if (number == 3){
       this.size = 3;
       this.type = "Square";
    }
-   else if (shapeNumber == 4){
+   else if (number == 4){
       this.size = 2;
       this.type = "Horizontal Line";
     }
-   else if (shapeNumber == 5){
+   else if (number == 5){
       this.size = 3;
       this.type = "Horizontal Line";
    }
-   else if (shapeNumber == 6){
+   else if (number == 6){
       this.size = 4;
       this.type = "Horizontal Line";
    }
-   else if (shapeNumber == 7){
+   else if (number == 7){
       this.size = 5;
       this.type = "Horizontal Line";
    }
-   else if (shapeNumber == 8){
+   else if (number == 8){
       this.size = 2;
       this.type = "Vertical Line";
    }
-   else if (shapeNumber == 9){
+   else if (number == 9){
      this.size = 3;
      this.type = "Vertical Line";
    }
-  else if (shapeNumber == 10){
+  else if (number == 10){
      this.size = 4;
      this.type = "Vertical Line";
    }
-   else if (shapeNumber == 11){
+   else if (number == 11){
      this.size = 5;
      this.type = "Vertical Line";
    }
-   else if (shapeNumber == 12){
+   else if (number == 12){
      this.size = 3;
      this.type = "L";
    }
-   else if (shapeNumber == 13){
+   else if (number == 13){
      this.size = 4;
      this.type = "L";
    }
-   else if (shapeNumber == 14){
+   else if (number == 14){
      this.size = 3;
      this.type = "L hacia la izquierda";
    }
-   else if (shapeNumber == 15){
+   else if (number == 15){
      this.size = 4;
      this.type = "L hacia la izquierda";
    }
-   else if (shapeNumber == 16){
+   else if (number == 16){
      this.size = 3;
      this.type = "L invertida";//capaz y se pueda pensar unos mejores nombres para esto.
    }
-   else if (shapeNumber == 17){
+   else if (number == 17){
      this.size = 4;
      this.type = "L invertida";
    }
-   else if (shapeNumber == 18){
+   else if (number == 18){
      this.size = 3;
      this.type = "L invertida hacia la izquierda";
    }
-   else if (shapeNumber == 19){
+   else if (number == 19){
      this.size = 4;
      this.type = "L invertida hacia la izquierda";
    }
-   else System.out.println("El numero es: " + shapeNumber);
+   else System.out.println("El numero es: " + number);
   }
 
   public boolean displacement_Piece(){

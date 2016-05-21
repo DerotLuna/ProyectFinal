@@ -1,4 +1,4 @@
-public class FreeBox extends Status{
+public class FreeBox implements Status{
   public String getStatusBox(){
     return "FREE";
   }

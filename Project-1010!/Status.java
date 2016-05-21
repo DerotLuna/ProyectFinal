@@ -1,4 +1,4 @@
-public abstract class Status{
+public interface Status{
 
   public abstract String getStatusBox();
 }

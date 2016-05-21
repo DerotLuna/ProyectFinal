@@ -1,6 +1,6 @@
 public class Box{
   private Status status;
-  private final byte id;
+  private byte id;
 
   public Box(int id){
     this.id = (byte) id;

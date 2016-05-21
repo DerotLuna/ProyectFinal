@@ -6,8 +6,8 @@ public class World{
   //private Menu subMenu; //atributo posible, o puede que sea un metodo!!!
   private Player player;
   private Piece[] capsule;
-  private final byte limitCapsule;
-  private byte dimension;
+  private byte limitCapsule;
+  private byte dimensionBoard;
   private Board board;
 
   Scanner scanner = new Scanner(System.in);
@@ -17,8 +17,8 @@ public class World{
     this.score = 0; //validar que el juego sigue o si es una partida nueva
     this.limitCapsule = 3;
     this.capsule = new Piece[limitCapsule];
-    this.dimension = dimension;
-    this.board = new SquareBoard(dimension);
+    this.dimensionBoard = dimension;
+    this.board = new SquareBoard(dimensionBoard);
   }
 
   /*Se puede pasar el usuario por aqui o hacer un setter para asi cambiarlo
@@ -39,15 +39,15 @@ public class World{
     System.out.println("Jugador: " + player.getUser() + " Puntaje actual: " + score);
   }
 
-  public int scanner_PositionPiece_Row_Column(int answer){
-		int give_Back = 0; boolean flag = true;
+  public int scannerAll(int answer){
+		int give_Back = 0; boolean flag = true; int maximun = dimensionBoard*dimensionBoard; 
 		while(flag == true){
 			if (answer == 1) System.out.print(" Que pieza desea mover?: ");
 			else if (answer == 2) System.out.print(" Posicion casilla referencia: ");
 			else System.out.print(" Ingrese columna: ");
 			give_Back = scanner.nextInt(); System.out.print("\n");
 			if (answer == 1 && (give_Back < limitCapsule) && (give_Back >= 0)) flag = false;
-			else if (answer != 1 && (give_Back < dimension*dimension) && (give_Back >= 0)) flag = false;
+			else if (answer != 1 && (give_Back < maximun) && (give_Back >= 0)) flag = false;
 			else System.out.print(" Valor incorrecto. \n");
 		}
 		return give_Back;
@@ -60,7 +60,7 @@ public class World{
       System.out.println("Pieza "+ "(" + counterOfPieces + "): " + capsule[counterOfPieces].getTypePiece() + " " + capsule[counterOfPieces].getSizePiece());
     }
 
-    int positionPiece =  scanner_PositionPiece_Row_Column(1), positionBox =  scanner_PositionPiece_Row_Column(2);
+    int positionPiece =  scannerAll(1), positionBox =  scannerAll(2);
     //board.checkPositions(capsule[positionPiece], row, column);
     boolean answer = board.checkPositions(capsule[positionPiece], positionBox);
     if(answer)

@@ -1,10 +1,10 @@
-public class LockedBox extends Status{
+public class LockedBox implements Status{
 
   public LockedBox(){
 
   }
 
-  public void getStatus(){
-    System.out.println("Casilla bloqueada");
+  public String getStatusBox(){
+    return "LOCKED";
   }
 }
