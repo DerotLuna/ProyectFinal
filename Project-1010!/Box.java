@@ -11,7 +11,11 @@ public class Box{
     this.status = status;
   }
 
-  public void getStatus(){
-      status.getStatus();
+  public String getStatusBox(){
+      return status.getStatusBox();
+  }
+
+  public byte getIdBox(){
+      return this.id;
   }
 }
