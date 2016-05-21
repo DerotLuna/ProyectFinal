@@ -1,86 +1,106 @@
 import java.util.Random;
 
 public class Piece{
-  private String shapeOfPiece;
+  private String shape;
+  private byte size;
   private String color;
+  Random randomNumber = new Random();
   /*Atributo para saber que ocupa en Capsule o Board
     Se me ocurre hacer una clase padre entre tablero y capsula, donde compartan los atributos de casillas y numero de casillas.
     Al hacer eso, podre utilizar el polimorfismo para asi saber si la pieza pertene a tablero o a capsule. Esto es en caso
     de que sea necesario tener este tipo de dato, que creo que si.
   */
-  Random randomNumber = new Random();
+
   public Piece(){
-    byte shapeOfPiece = (byte)(randomNumber.nextInt()* 19 + 1);
+    byte shapeNumber = (byte)(randomNumber.nextInt()* 19 + 1);
     byte color = (byte)(randomNumber.nextInt()* 6 + 1);
-    this.shapeOfPiece = shapePieces(shapeOfPiece);
+    this.shape = shapePieces(shapeNumber);
   }
 
-  public String shapePieces(byte shapeOfPiece){
+  public String shapePieces(byte shapeNumber){
     /*Esto me generaria las cosas random que necesite, modificar a un nombre mas
-      mnemonico*/
-      String typeOfPiece = "EMPTY";
-      switch (shapeOfPiece) {
-        case 1:
-          typeOfPiece = "Cuadrado 2x2";
-          break;
-        case 2:
-          typeOfPiece = "Cuadrado 3x3";
-          break;
-        case 3:
-          typeOfPiece = "Cuadrado 1x1";
-          break;
-        case 4:
-          typeOfPiece = "linea horizontal de 2 casillas";
-          break;
-        case 5:
-          typeOfPiece = "linea horizontal de 3 casillas";
-          break;
-        case 6:
-          typeOfPiece = "linea horizontal de 4 casillas";
-          break;
-        case 7:
-          typeOfPiece = "linea horizontal de 5 casillas";
-          break;
-        case 8:
-          typeOfPiece = "linea vertical de 2 casillas";
-          break;
-        case 9:
-          typeOfPiece = "linea vertical de 3 casillas";
-          break;
-        case 10:
-          typeOfPiece = "linea vertical de 4 casillas";
-          break;
-        case 11:
-          typeOfPiece = "linea vertical de 5 casillas";
-          break;
-        case 12:
-          typeOfPiece = "L de 3 casillas ";
-          break;
-        case 13:
-          typeOfPiece = "L inversa hacia la izquierda 3 casillas";
-          break;
-        case 14:
-          typeOfPiece = "L inversa hacia abajo 3 casillas";
-          break;
-        case 15:
-          typeOfPiece = "L inversa hacia arriba 3 casillas";
-          break;
-        case 16:
-          typeOfPiece = "L de 4 casillas";
-          break;
-        case 17:
-          typeOfPiece = "L hacia la izquierda 4 casillas";
-          break;
-        case 18:
-          typeOfPiece = "L hacia abajo de 4 casillas";
-          break;
-        case 19:
-          typeOfPiece = "L hacia la derecha de 4 casillas";
-          break;
-        default:
-          break;
+      mnemonico */
+
+      String shape;//polsia
+
+      if (shapeNumber == 1){
+        size = 1;
+        shape = "Cuadrado 1X1";
       }
-      return typeOfPiece;
+      else if (shapeNumber == 2){
+        size = 4;//tiene 4 casillas por decirlo de una manera, esto puede funcionar para el score (si es que lo usamos asi)
+        shape = "Cuadrado 2X2";
+      }
+      else if (shapeNumber == 3){
+        size = 9;
+        shape = "Cuadrado 3X3";
+      }
+      else if (shapeNumber == 4){
+        size = 2;
+        shape = "linea horizontal de 2 casillas";
+      }
+      else if (shapeNumber == 5){
+        size = 3;
+        shape = "linea horizontal de 3 casillas";
+      }
+      else if (shapeNumber == 6){
+        size = 4;
+        shape = "linea horizontal de 4 casillas";
+      }
+      else if (shapeNumber == 7){
+        size = 5;
+        shape = "linea horizontal de 5 casillas";
+      }
+      else if (shapeNumber == 8){
+        size = 2;
+        shape = "Linea vertical de 2 casillas";
+      }
+      else if (shapeNumber == 9){
+        size = 3;
+        shape = "linea vertical de 3 casillas";
+      }
+      else if (shapeNumber == 10){
+        size = 4;
+        shape = "linea vertical de 4 casillas";
+      }
+      else if (shapeNumber == 11){
+        size = 5;
+        shape = "linea vertical de 5 casillas";
+      }
+      else if (shapeNumber == 12){
+        size = 3;
+        shape = "L de 3 casillas";
+      }
+      else if (shapeNumber == 13){
+        size = 4;
+        shape = "L de 4 casillas";
+      }
+      else if (shapeNumber == 14){
+        size = 3;
+        shape = "L con vista hacia la izquierda de 3 casillas";
+      }
+      else if (shapeNumber == 15){
+        size = 4;
+        shape = "L con vista hacia la izquierda de 4 casillas";
+      }
+      else if (shapeNumber == 16){
+        size = 3;
+        shape = "L invertida de 3 casillas";//capaz y se pueda pensar unos mejores nombres para esto.
+      }
+      else if (shapeNumber == 17){
+        size = 4;
+        shape = "L invertida de 4 casillas";
+      }
+      else if (shapeNumber == 18){
+        size = 3;
+        shape = "L invertida con vista hacia la izquierda de 3 casillas";
+      }
+      else{
+        size = 4;
+        shape = "L invertida con vista hacia la izquierda de 4 casillas";
+      }
+
+      return shape;
   }
 
   public boolean displacement_Piece(){
