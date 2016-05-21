@@ -1,10 +1,10 @@
 import java.util.Arrays;
 
-public class Board{
-  private Box[] boxes;
-  private int numberOfBoxes;
-  private boolean[][] neighborhood;
-  private byte dimension; //pueden ser filas y columnas o un atributo que defina las casillas
+public abstract class Board{
+  protected Box[] boxes;
+  protected int numberOfBoxes;
+  protected boolean[][] neighborhood;
+  protected byte dimension; //pueden ser filas y columnas o un atributo que defina las casillas
   /* Buscar la manera de no tener la dimension, porque en un tablero en forma de rombo ya la dimension como la definimos
      no nos serviria. O cualquier otro tipo de tablero que no sea ni cuadrado o rectangular*/
 
@@ -24,30 +24,12 @@ public class Board{
     }
   }
 
-  public void shapeBoard(){
-    byte rowAndColumn = 0;
-    byte counterStrike = dimension;
-    byte counter = (byte)(counterStrike - 1);
-    while (rowAndColumn < (numberOfBoxes - 1)){
+  public abstract void shapeBoard();
 
-      if(rowAndColumn <= counter){
-        if (counter < numberOfBoxes - 1){
-          neighborhood[rowAndColumn][counterStrike] = true;
-          neighborhood[counterStrike][rowAndColumn] = true;
-        }
-        if (rowAndColumn < counter){
-          neighborhood[rowAndColumn + 1][rowAndColumn] = true;
-          neighborhood[rowAndColumn][rowAndColumn + 1] = true;
-        }
-      }
-      System.out.println("rowAndColumn " + rowAndColumn);
-      System.out.println("counterStrike " + counterStrike);
-      System.out.println("counter " + counter);
-      if (rowAndColumn == counter) counter = counterStrike;
-      if (counterStrike < numberOfBoxes - 1) counterStrike ++;
-      rowAndColumn ++;
-    }
-  }
+  //public abstract void typeOfPiece();
+
+  //public abstract void checkPositions(Piece piece, byte row, byte column);
+  public abstract boolean checkPositions(Piece piece, int positionBox);
 
   public void printBoard(){
     for (int counterRows = 0; counterRows < numberOfBoxes; counterRows++) {
@@ -59,8 +41,5 @@ public class Board{
 
   public void statusBox(){
     printBoard();
-    boxes[5].getStatus();
-    boxes[8].setStatus(new LockedBox());
-    boxes[8].getStatus();
   }
 }
