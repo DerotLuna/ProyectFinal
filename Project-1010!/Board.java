@@ -24,6 +24,10 @@ public abstract class Board{
     }
   }
 
+  public Box getBox(int positionBox){
+    return this.boxes[positionBox];
+  }
+
   public abstract void shapeBoard();
 
   //public abstract void typeOfPiece();
@@ -38,6 +42,8 @@ public abstract class Board{
       System.out.println();
     }
   }
+
+  public abstract int deleteRowColumn();
 
   public void statusBox(){
     printBoard();

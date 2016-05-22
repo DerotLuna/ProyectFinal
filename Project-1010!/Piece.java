@@ -1,19 +1,20 @@
 import java.util.Random;
+import java.awt.Color;
 
 public class Piece{
+  private static final Color[] COLORS = {Color.red, Color.blue, Color.green, Color.yellow, Color.pink, Color.magenta, Color.cyan};
+  private final byte NUMBER_OF_PIECE;
   private String type; // hay tres tipos en 1010: cuadrado, linea, l
   private byte size; //la altura de la pieza (en l es la parte mas larga)
-  private String color;
+  private Color color;
   private byte id;
-  /*Atributo para saber que ocupa en Capsule o Board
-    Se me ocurre hacer una clase padre entre tablero y capsula, donde compartan los atributos de casillas y numero de casillas.
-    Al hacer eso, podre utilizar el polimorfismo para asi saber si la pieza pertene a tablero o a capsule. Esto es en caso
-    de que sea necesario tener este tipo de dato, que creo que si.
-  */
+
   Random randomNumber = new Random();
-  public Piece(int numberOfPieces){
-    int randomPiece = (int)(randomNumber.nextDouble() * numberOfPieces + 1);
-    int randomColor = (int)(randomNumber.nextDouble() * 6 + 1);
+  public Piece(){
+    NUMBER_OF_PIECE = 19;
+    int randomPiece = (int)(randomNumber.nextDouble() * NUMBER_OF_PIECE + 1);
+     color = COLORS[randomNumber.nextInt(COLORS.length)];
+     /*Pido de mi arreglo PIECE_COLORS que me retorne un color random en una de las posiciones*/
     shapePieces(randomPiece);
     //this.id = id;
     //this.color = colors(randomColor);
@@ -25,6 +26,10 @@ public class Piece{
 
   public byte getSizePiece(){
     return this.size;
+  }
+
+  public Color getColorPiece(){
+    return this.color;
   }
 
   public void shapePieces(int number){
@@ -105,9 +110,5 @@ public class Piece{
      this.type = "L invertida hacia la izquierda";
    }
    else System.out.println("El numero es: " + number);
-  }
-
-  public boolean displacement_Piece(){
-    return true;
   }
 }

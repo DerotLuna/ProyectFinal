@@ -1,6 +1,9 @@
+import java.awt.Color;
+
 public class Box{
   private Status status;
   private byte id;
+  private Color color;
 
   public Box(int id){
     this.id = (byte) id;
@@ -17,5 +20,13 @@ public class Box{
 
   public byte getIdBox(){
       return this.id;
+  }
+
+  public Color getColorBox(){
+    return this.color;
+  }
+
+  public void setColorBox(Color color){
+    this.color = color;
   }
 }

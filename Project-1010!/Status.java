@@ -1,6 +1,6 @@
 public interface Status{
 
-  public abstract String getStatusBox();
+  public String getStatusBox();
 }
 
 /*

@@ -33,21 +33,21 @@ public class World{
     board.shapeBoard();
 
     for (byte counterOfPieces = 0; counterOfPieces < limitCapsule; counterOfPieces ++) {
-      capsule[counterOfPieces] = new Piece(11); //le paso el numero de tipos de piezas
+      capsule[counterOfPieces] = new Piece(); //le paso el numero de tipos de piezas
     }
 
     System.out.println("Jugador: " + player.getUser() + " Puntaje actual: " + score);
   }
 
-  public int scannerAll(int answer){
-		int give_Back = 0; boolean flag = true; int maximun = dimensionBoard*dimensionBoard; 
+  public int scannerAll(int option){
+		int give_Back = 0; boolean flag = true; int maximun = dimensionBoard*dimensionBoard;
 		while(flag == true){
-			if (answer == 1) System.out.print(" Que pieza desea mover?: ");
-			else if (answer == 2) System.out.print(" Posicion casilla referencia: ");
+			if (option == 1) System.out.print(" Que pieza desea mover?: ");
+			else if (option == 2) System.out.print(" Posicion casilla referencia: ");
 			else System.out.print(" Ingrese columna: ");
 			give_Back = scanner.nextInt(); System.out.print("\n");
-			if (answer == 1 && (give_Back < limitCapsule) && (give_Back >= 0)) flag = false;
-			else if (answer != 1 && (give_Back < maximun) && (give_Back >= 0)) flag = false;
+			if (option == 1 && (give_Back < limitCapsule) && (give_Back >= 0)) flag = false;
+			else if (option != 1 && (give_Back < maximun) && (give_Back >= 0)) flag = false;
 			else System.out.print(" Valor incorrecto. \n");
 		}
 		return give_Back;
@@ -63,10 +63,16 @@ public class World{
     int positionPiece =  scannerAll(1), positionBox =  scannerAll(2);
     //board.checkPositions(capsule[positionPiece], row, column);
     boolean answer = board.checkPositions(capsule[positionPiece], positionBox);
-    if(answer)
+    if(answer){
       System.out.println("La pieza: " + capsule[positionPiece].getTypePiece() + " " + capsule[positionPiece].getSizePiece() + " puede ser colocada");
+      score += capsule[positionPiece].getSizePiece();
+      int deleteRowsColumns = board.deleteRowColumn();
+      score += (deleteRowsColumns) * 10;
+    }
     else
       System.out.println("La pieza: " + capsule[positionPiece].getTypePiece() + " " + capsule[positionPiece].getSizePiece() + " no puede ser colocada");
-  }
 
+      Box box = board.getBox(positionBox);
+      System.out.println("Estado de la casilla: " + box.getStatusBox() + " Color de la casilla: " + box.getColorBox());
+  }
 }
