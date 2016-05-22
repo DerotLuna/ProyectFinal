@@ -131,6 +131,127 @@ public class SquareBoard extends Board{
       }
     return checked;
   }
+  
+    public boolean lEvaluation(byte lSize ,int positionBox ,boolean checked){
+
+    int pivot = positionBox;
+    byte exitCounter = 0;
+
+    while(exitCounter < lSize){
+      if ((positionBox > numberOfBoxes) || (neighborhood[pivot][pivot + 1] == false)){
+        checked = false;
+        break;
+      }
+      else {
+        if (pivot == positionBox){
+          if ((boxes[pivot].getStatusBox() == "FREE") && (boxes[pivot + 1].getStatusBox() == "FREE")) pivot += dimension;
+          else{
+            checked = false;
+            break;
+          }
+        }
+        else {
+          if (((boxes[pivot].getStatusBox()) == "FREE")) pivot++;
+          else{
+            checked = false;
+            break;
+          }
+        }
+      }
+      exitCounter ++;
+     }
+    return checked;
+  }
+
+  public boolean leftLEvaluation(byte sizeOfPiece ,int positionBox ,boolean checked){
+      byte exitCounter = 0;
+      int counterJump = positionBox - dimension;
+      while(exitCounter < sizeOfPiece){
+
+        if ((positionBox <= dimension) || (positionBox > numberOfBoxes) || (neighborhood[counterJump][counterJump + 1] == false)){ //or (neighborhood[][])
+          checked = false;
+          break;
+        }
+        else {
+          if ((boxes[positionBox].getStatusBox() == "FREE") && (boxes[counterJump + 1].getStatusBox() == "FREE"))positionBox++;
+          else{
+            checked = false;
+            break;
+          }
+
+          if (exitCounter == (sizeOfPiece - 1)){
+            positionBox -= dimension;
+            if ((boxes[positionBox].getStatusBox() == "FREE") && (boxes[positionBox + 1].getStatusBox() == "FREE")) positionBox++;
+            else{
+              checked = false;
+              break;
+            }
+          }
+        }
+        exitCounter++;
+      }
+      return checked;
+  }
+
+  public boolean investedLEvaluation(byte sizeOfPiece ,int positionBox ,boolean checked){
+
+    byte exitCounter = 0;
+
+    while(exitCounter < sizeOfPiece){
+      if ((positionBox > numberOfBoxes) || (positionBox <= dimension) || (neighborhood[positionBox][positionBox + 1] == false)){
+        checked = false;
+        break;
+      }
+      else {
+        if (exitCounter == 0){
+          if (boxes[positionBox].getStatusBox() == "FREE")  positionBox -= dimension;
+          else {
+            checked = false;
+            break;
+          }
+        }
+        else {
+          if ((boxes[positionBox].getStatusBox() == "FREE") && (boxes[positionBox + 1].getStatusBox() == "FREE")) positionBox ++;
+          else{
+            checked = false;
+            break;
+          }
+        }
+      }
+      exitCounter ++;
+    }
+    return checked;
+
+  }
+
+  public boolean leftInvestedLEvaluation(byte sizeOfPiece ,int positionBox ,boolean checked){
+    byte exitCounter = 0;
+
+    while(exitCounter < sizeOfPiece){
+      if ((positionBox < 0) || (positionBox > numberOfBoxes)){
+        checked = false;
+        break;
+      }
+      else{
+        if (exitCounter == 0){
+          if (boxes[positionBox].getStatusBox() == "FREE")positionBox -= dimension;
+          else{
+            checked = false;
+            break;
+          }
+        }
+        else {
+          if (boxes[positionBox].getStatusBox() == "FREE") positionBox--;
+          else {
+            checked = false;
+            break;
+          }
+        }
+      }
+      exitCounter ++;
+    }
+    return checked;
+  }
 
   private void addSquare(byte sizeSquare, int positionBox, Color color){
     Status fullBox = new FullBox();
