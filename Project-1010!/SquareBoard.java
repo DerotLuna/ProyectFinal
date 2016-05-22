@@ -1,5 +1,3 @@
-import java.awt.Color;
-
 public class SquareBoard extends Board{
   private final byte id;
 
@@ -29,46 +27,29 @@ public class SquareBoard extends Board{
       rowAndColumn ++;
     }
   }
-
   public int getIdBoard(){
     return this.id;
   }
 
-  public boolean checkPositions(Piece piece, int positionBox){
-    boolean checked = true;
-    //creo que el pivote que definiremos seria un pivote logico, no podemos tener una variable, o no la veo por lo menos.
-    String typePiece = piece.getTypePiece();
-    byte sizePiece = piece.getSizePiece();
-    Color color = piece.getColorPiece();
-    if (typePiece == "Square") checked = squareEvaluations(sizePiece, positionBox, checked);
-    else if (typePiece == "Vertical Line") checked = lineEvaluations(sizePiece, positionBox, 2, checked);
-    else if (typePiece == "Horizontal Line") checked = lineEvaluations(sizePiece, positionBox, 1, checked);
-    if (checked == true){
-      addPiece(typePiece, sizePiece, positionBox , color);
-    }
-    return checked;
-  }
+  public boolean squareEvaluations(byte dimensionSquare, int positionBox, boolean checked){
 
-  public boolean squareEvaluations(byte sizeSquare, int positionBox, boolean checked){
-    String status = "FREE";
-
-    if (sizeSquare == 1){
-      if (boxes[positionBox].getStatusBox() != status) checked = false;
+    if (dimensionSquare == 1){
+      if (boxes[positionBox].getStatusBox() != "FREE") checked = false;
     }
     else{ //sera general para todos las dimensiones de los cuadrados
       int positionBoxDown = positionBox + dimension;
       int referenceBox = positionBoxDown;
       byte counterExit = 1;
       exit:
-      while(counterExit < sizeSquare){
+      while(counterExit < dimensionSquare){
         byte counterJump = 1;
-        while(counterJump < sizeSquare){
-          if(positionBoxDown >= numberOfBoxes || !neighborhood[positionBox][positionBox + 1]){
+        while(counterJump < dimensionSquare){
+          if(positionBoxDown >= numberOfBoxes || neighborhood[positionBox][positionBox + 1] == false){
             checked = false;
             break exit;
           }
           else{
-            if(boxes[positionBox].getStatusBox() == status && boxes[positionBox + 1].getStatusBox() == status && boxes[positionBoxDown].getStatusBox() == status){
+            if(boxes[positionBox].getStatusBox() == "FREE" && boxes[positionBox + 1].getStatusBox() == "FREE" && boxes[positionBoxDown].getStatusBox() == "FREE"){
               positionBox ++;
               positionBoxDown ++;
             }
@@ -80,9 +61,9 @@ public class SquareBoard extends Board{
           counterJump ++;
         }
 
-        if (counterExit == sizeSquare - 1){
+        if (counterExit == dimensionSquare - 1){
           positionBoxDown ++;
-          if (boxes[positionBoxDown].getStatusBox() != status) checked = false;
+          if (boxes[positionBoxDown].getStatusBox() != "FREE") checked = false;
         }
         counterExit ++;
         positionBox = referenceBox;
@@ -93,18 +74,18 @@ public class SquareBoard extends Board{
     return checked;
   }
 
-  public boolean lineEvaluations(byte sizeLine, int positionBox, int option, boolean checked){
-    String status = "FREE";
+  public boolean lineEvaluations(byte lineSize, int positionBox, int answer, boolean checked){
+
     byte counterExit = 1;
 
-      if(option == 1){
-        while(counterExit < sizeLine){
-          if(positionBox >= numberOfBoxes || !neighborhood[positionBox][positionBox + 1]){
+      if(answer == 1){
+        while(counterExit < lineSize){
+          if(positionBox >= numberOfBoxes || neighborhood[positionBox][positionBox + 1] == false){
             checked = false;
             break;
           }
           else{
-            if(boxes[positionBox].getStatusBox() == status && boxes[positionBox + 1].getStatusBox() == status) positionBox ++;
+            if(boxes[positionBox].getStatusBox() == "FREE" && boxes[positionBox + 1].getStatusBox() == "FREE") positionBox ++;
             else{
               checked = false;
               break;
@@ -114,13 +95,13 @@ public class SquareBoard extends Board{
         }
       }
       else{
-        while(counterExit < sizeLine){
-          if(positionBox >= numberOfBoxes || !neighborhood[positionBox + dimension][positionBox]){
+        while(counterExit < lineSize){
+          if(positionBox >= numberOfBoxes || neighborhood[positionBox + dimension][positionBox] == false){
             checked = false;
             break;
           }
           else{
-            if(boxes[positionBox].getStatusBox() == status && boxes[positionBox + dimension].getStatusBox() == status) positionBox += dimension;
+            if(boxes[positionBox].getStatusBox() == "FREE" && boxes[positionBox + dimension].getStatusBox() == "FREE") positionBox += dimension;
             else{
               checked = false;
               break;
@@ -129,16 +110,17 @@ public class SquareBoard extends Board{
           counterExit ++;
         }
       }
+
     return checked;
   }
-  
-    public boolean lEvaluation(byte lSize ,int positionBox ,boolean checked){
+
+  public boolean lEvaluation(byte lSize ,int positionBox ,boolean checked){
 
     int pivot = positionBox;
     byte exitCounter = 0;
 
     while(exitCounter < lSize){
-      if ((positionBox > numberOfBoxes) || (neighborhood[pivot][pivot + 1] == false)){
+      if ((positionBox > numberOfBoxes) || (positionBox >= numberOfBoxes - dimension) || (neighborhood[pivot][pivot + 1] == false)){ //falta un condicional
         checked = false;
         break;
       }
@@ -196,25 +178,46 @@ public class SquareBoard extends Board{
   public boolean investedLEvaluation(byte sizeOfPiece ,int positionBox ,boolean checked){
 
     byte exitCounter = 0;
+    int upCounter = positionBox - dimension;
 
     while(exitCounter < sizeOfPiece){
-      if ((positionBox > numberOfBoxes) || (positionBox <= dimension) || (neighborhood[positionBox][positionBox + 1] == false)){
+      if (upCounter < 0){
+        checked = false;
+        break;
+      }
+
+      if ((positionBox > numberOfBoxes)){
         checked = false;
         break;
       }
       else {
         if (exitCounter == 0){
-          if (boxes[positionBox].getStatusBox() == "FREE")  positionBox -= dimension;
-          else {
+          if (neighborhood[upCounter][positionBox] == false){
             checked = false;
             break;
           }
+          else{
+            if ((boxes[positionBox].getStatusBox() == "FREE") && (boxes[upCounter].getStatusBox() == "FREE")) positionBox -= dimension;
+            else {
+              checked = false;
+              break;
+            }
+          }
         }
         else {
-          if ((boxes[positionBox].getStatusBox() == "FREE") && (boxes[positionBox + 1].getStatusBox() == "FREE")) positionBox ++;
-          else{
+          if(neighborhood[upCounter][positionBox + 1] == false){
             checked = false;
             break;
+          }
+          else{
+            if (boxes[positionBox + 1].getStatusBox() == "FREE"){
+              positionBox ++;
+              upCounter++;
+            }
+            else{
+              checked = false;
+              break;
+            }
           }
         }
       }
@@ -226,161 +229,69 @@ public class SquareBoard extends Board{
 
   public boolean leftInvestedLEvaluation(byte sizeOfPiece ,int positionBox ,boolean checked){
     byte exitCounter = 0;
+    int upCounter = positionBox - dimension;
 
-    while(exitCounter < sizeOfPiece){
-      if ((positionBox < 0) || (positionBox > numberOfBoxes)){
-        checked = false;
-        break;
-      }
-      else{
-        if (exitCounter == 0){
-          if (boxes[positionBox].getStatusBox() == "FREE")positionBox -= dimension;
-          else{
-            checked = false;
-            break;
-          }
+      while(exitCounter < sizeOfPiece){
+
+        if(upCounter < 0){
+          checked = false;
+          break;
         }
-        else {
-          if (boxes[positionBox].getStatusBox() == "FREE") positionBox--;
+
+        if ((positionBox > numberOfBoxes) || (positionBox - 1 < 0) || (positionBox < 0) || (upCounter < 0)){
+          checked = false;
+          break;
+        }
+        else{
+          if (exitCounter == 0){
+            if (neighborhood [upCounter][positionBox] == false){
+              checked = false;
+              break;
+            }
+            else{
+              if ((boxes[positionBox].getStatusBox() == "FREE") && (boxes[upCounter].getStatusBox() == "FREE"))positionBox -= dimension;
+              else{
+                checked = false;
+                break;
+              }
+            }
+          }
           else {
-            checked = false;
-            break;
-          }
+            //en este condicional se corre el riesgo de que se acceda a un valor negativo en un arreglo
+            if (neighborhood[upCounter][positionBox - 1] == false){
+              checked = false;
+              break;
+            }
+            else{
+              if (boxes[positionBox].getStatusBox() == "FREE"){
+                positionBox --;
+                upCounter --;
+              }
+              else {
+                checked = false;
+                break;
+              }
+            }
         }
+       exitCounter ++;
       }
-      exitCounter ++;
     }
     return checked;
   }
 
-  private void addSquare(byte sizeSquare, int positionBox, Color color){
-    Status fullBox = new FullBox();
-    if(sizeSquare == 1){
-      boxes[positionBox].setStatus(fullBox);
-      boxes[positionBox].setColorBox(color);
-    }
-    else{
-      int positionBoxDown = positionBox + dimension;
-      byte counterExit = 1;
-      while(counterExit <= sizeSquare){
-        byte counterJump = 1;
-        while(counterJump <= sizeSquare){
-          boxes[positionBox].setStatus(fullBox);
-          boxes[positionBox].setColorBox(color);
-          counterJump ++;
-          positionBox++;
-        }
-        positionBox = positionBoxDown;
-        positionBox += dimension;
-        counterExit ++;
-      }
-    }
-  }
-
-  private void addLine(byte sizeLine, int positionBox, int answer, Color color){
-    Status fullBox = new FullBox();
-    byte counterExit = 1;
-    while(counterExit <= sizeLine){
-      boxes[positionBox].setStatus(fullBox);
-      boxes[positionBox].setColorBox(color);
-      counterExit ++;
-      if(answer == 1)  positionBox++;
-      else positionBox += dimension;
-    }
-  }
-
-  private void addL(byte sizeL, int positionBox, Color color){
-
-  }
-
-  public void addPiece(String typePiece, byte sizePiece,int positionBox ,Color color){
-    if (typePiece == "Square") addSquare(sizePiece, positionBox, color);
-    else if (typePiece == "Vertical Line") addLine(sizePiece, positionBox, 1, color);
-    else if (typePiece == "Horizontal Line") addLine(sizePiece, positionBox, 2, color);
-  }
-
-  public void liberateBoxes(int [] delete, byte storedElements, int option){
-    Status freeBox = new FreeBox();
-    int counterExit = 0, positionBox = 0;
-    if(option == 1){ //aqui liberamos casillas en fila
-      while(counterExit <= storedElements){
-        byte counterJump = 0;
-        positionBox = delete[counterExit];
-        while(counterJump < dimension){
-          boxes[positionBox].setStatus(freeBox);
-          positionBox ++;
-          counterJump ++;
-        }
-        counterExit ++;
-      }
-    }
-    else{ //aqui liberamos casillas en columna
-      int finalBox = ((numberOfBoxes) - dimension) + delete[0];
-      while(counterExit <= storedElements){
-        if (counterExit != 0) finalBox += delete[counterExit] - delete[counterExit - 1];
-        positionBox = delete[counterExit];
-
-        while(positionBox <= finalBox){
-          boxes[positionBox].setStatus(freeBox);
-          positionBox += dimension;
-        }
-        counterExit ++;
-      }
-    }
-  }
-
-  public int deleteRowColumn(){
-    int[] deleteRows = new int[dimension]; //almacenador de la primera casilla de la fila a eliminar
-    int[] deleteColumns = new int[dimension]; //almacenador de la primera casilla de la columna a eliminar
-    byte positionDeleteRows = 0, positionBoxDown = dimension, positionBox = 0, rowColumn = 0;
-    String status = "FULL";
-    while(positionBox < numberOfBoxes){ //evaluo todas las filas
-      if(boxes[positionBox].getStatusBox() != status){
-        //salto hacia la siguiente fila si en la fila que estoy hay una casilla libre
-        positionBox = positionBoxDown;
-        positionBoxDown += dimension;
-        rowColumn = positionBox;
-      }
-      else{
-        if(positionBox == positionBoxDown - 1){
-          deleteRows[positionDeleteRows] = rowColumn;
-          positionDeleteRows ++;
-          rowColumn = positionBoxDown;
-          positionBoxDown += dimension;
-        }
-        positionBox ++;
-      }
-    }
-
-    positionBox = 0; rowColumn = 0;
-    byte positionBoxNext = (byte) (positionBox + 1), positionDeleteColumns = 0; int finalBox = (numberOfBoxes) - dimension;
-    while(rowColumn < dimension && positionBox < numberOfBoxes){ //evaluo todas las columnas
-      if(boxes[positionBox].getStatusBox() != status){
-        //salto hacia la siguiente fila si en la fila que estoy hay una casilla libre
-        positionBox = positionBoxNext;
-        positionBoxNext ++;
-        rowColumn ++;
-        finalBox ++;
-      }
-      else{
-        if(positionBox == finalBox){
-          deleteColumns[positionDeleteColumns] = rowColumn;
-          positionDeleteColumns ++;
-          rowColumn ++;
-          positionBoxNext ++;
-          finalBox ++;
-        }
-        positionBox += dimension;
-      }
-    }
-
-    int deleteRowsColumns = positionDeleteRows + positionDeleteColumns;
-    if (deleteRowsColumns != 0) {
-      liberateBoxes(deleteRows, positionDeleteRows, 1);
-      liberateBoxes(deleteColumns, positionDeleteColumns, 2);
-      deleteRowsColumns ++;
-    }
-
-    return deleteRowsColumns;
+  public boolean checkPositions(Piece piece, int positionBox){
+    boolean checked = true;
+    //creo que el pivote que definiremos seria un pivote logico, no podemos tener una variable, o no la veo por lo menos.
+    String typeOfPiece = piece.getTypePiece();
+    byte sizeOfPiece = piece.getSizePiece();
+    if (typeOfPiece == "Square") checked = squareEvaluations(sizeOfPiece, positionBox, checked);
+    else if (typeOfPiece == "Vertical Line") checked = lineEvaluations(sizeOfPiece, positionBox, 1, checked);
+    else if (typeOfPiece == "Horizontal Line") checked = lineEvaluations(sizeOfPiece, positionBox, 2, checked);
+    else if (typeOfPiece == "L") checked = lEvaluation(sizeOfPiece , positionBox, checked);
+    else if (typeOfPiece == "L hacia la izquierda") checked = leftLEvaluation(sizeOfPiece ,positionBox ,checked);
+    else if (typeOfPiece == "L invertida") checked = investedLEvaluation(sizeOfPiece ,positionBox ,checked);
+    else checked = leftInvestedLEvaluation(sizeOfPiece ,positionBox ,checked);
+    return checked;
   }
 }
+/*pequeno detalle por arreglar */
