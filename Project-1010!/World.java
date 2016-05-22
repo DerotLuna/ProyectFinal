@@ -37,6 +37,8 @@ public class World{
     }
 
     System.out.println("Jugador: " + player.getUser() + " Puntaje actual: " + score);
+
+    board.testDelete();
   }
 
   public int scannerAll(int option){
@@ -74,5 +76,7 @@ public class World{
 
       Box box = board.getBox(positionBox);
       System.out.println("Estado de la casilla: " + box.getStatusBox() + " Color de la casilla: " + box.getColorBox());
+
+      System.out.println("Jugador: " + player.getUser() + " Puntaje actual: " + score);
   }
 }

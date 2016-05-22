@@ -45,7 +45,16 @@ public abstract class Board{
 
   public abstract int deleteRowColumn();
 
-  public void statusBox(){
-    printBoard();
+
+  public void testDelete(){
+    Status fullBox = new FullBox();
+    byte counterJump = 0, positionBoxR = 4, positionBoxC = 7;
+    while(counterJump < dimension){
+      boxes[positionBoxR].setStatus(fullBox);
+      boxes[positionBoxC].setStatus(fullBox);
+      positionBoxR ++;
+      positionBoxC += dimension;
+      counterJump ++;
+    }
   }
 }

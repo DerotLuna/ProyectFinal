@@ -41,8 +41,8 @@ public class SquareBoard extends Board{
     byte sizePiece = piece.getSizePiece();
     Color color = piece.getColorPiece();
     if (typePiece == "Square") checked = squareEvaluations(sizePiece, positionBox, checked);
-    else if (typePiece == "Vertical Line") checked = lineEvaluations(sizePiece, positionBox, 1, checked);
-    else if (typePiece == "Horizontal Line") checked = lineEvaluations(sizePiece, positionBox, 2, checked);
+    else if (typePiece == "Vertical Line") checked = lineEvaluations(sizePiece, positionBox, 2, checked);
+    else if (typePiece == "Horizontal Line") checked = lineEvaluations(sizePiece, positionBox, 1, checked);
     if (checked == true){
       addPiece(typePiece, sizePiece, positionBox , color);
     }
@@ -233,7 +233,7 @@ public class SquareBoard extends Board{
 
     positionBox = 0; rowColumn = 0;
     byte positionBoxNext = (byte) (positionBox + 1), positionDeleteColumns = 0; int finalBox = (numberOfBoxes) - dimension;
-    while(rowColumn < dimension){ //evaluo todas las columnas
+    while(rowColumn < dimension && positionBox < numberOfBoxes){ //evaluo todas las columnas
       if(boxes[positionBox].getStatusBox() != status){
         //salto hacia la siguiente fila si en la fila que estoy hay una casilla libre
         positionBox = positionBoxNext;
@@ -257,6 +257,7 @@ public class SquareBoard extends Board{
     if (deleteRowsColumns != 0) {
       liberateBoxes(deleteRows, positionDeleteRows, 1);
       liberateBoxes(deleteColumns, positionDeleteColumns, 2);
+      deleteRowsColumns ++;
     }
 
     return deleteRowsColumns;
