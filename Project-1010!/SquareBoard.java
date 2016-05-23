@@ -233,11 +233,6 @@ public class SquareBoard extends Board{
 
       while(exitCounter < sizeOfPiece){
 
-        if(upCounter < 0){
-          checked = false;
-          break;
-        }
-
         if ((positionBox > numberOfBoxes) || (positionBox - 1 < 0) || (positionBox < 0) || (upCounter < 0)){
           checked = false;
           break;
