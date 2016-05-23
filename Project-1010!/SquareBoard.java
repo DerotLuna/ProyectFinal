@@ -229,46 +229,53 @@ public class SquareBoard extends Board{
 
   public boolean leftInvestedLEvaluation(byte sizeOfPiece ,int positionBox ,boolean checked){
     byte exitCounter = 0;
-    int upCounter = positionBox - dimension;
+    byte counterJump = 1;
 
-      while(exitCounter < sizeOfPiece){
+    while (exitCounter < sizeOfPiece){
 
-        if ((positionBox > numberOfBoxes) || (positionBox - 1 < 0) || (positionBox < 0) || (upCounter < 0)){
-          checked = false;
-          break;
-        }
-        else{
-          if (exitCounter == 0){
-            if (neighborhood [upCounter][positionBox] == false){
+      if (positionBox > numberOfBoxes){
+        checked = false;
+        break;
+      }
+      else {
+        if (counterJump == sizeOfPiece - 1){
+            if (neighborhood[positionBox][positionBox + dimension] == false){
               checked = false;
               break;
             }
-            else{
-              if ((boxes[positionBox].getStatusBox() == "FREE") && (boxes[upCounter].getStatusBox() == "FREE"))positionBox -= dimension;
-              else{
-                checked = false;
-                break;
-              }
-            }
-          }
-          else {
-            //en este condicional se corre el riesgo de que se acceda a un valor negativo en un arreglo
-            if (neighborhood[upCounter][positionBox - 1] == false){
-              checked = false;
-              break;
-            }
-            else{
-              if (boxes[positionBox].getStatusBox() == "FREE"){
-                positionBox --;
-                upCounter --;
-              }
+            else {
+              if (boxes[positionBox].getStatusBox() == "FREE") positionBox += dimension;
               else {
                 checked = false;
                 break;
               }
             }
+
         }
-       exitCounter ++;
+        else if (counterJump < sizeOfPiece -1){
+          if (neighborhood[positionBox][positionBox + 1] == false){
+            checked = false;
+            break;
+          }
+          else {
+            if (boxes[positionBox].getStatusBox() == "FREE") positionBox ++;
+            else {
+              checked = false;
+              break;
+            }
+          }
+
+        }
+        else {
+          if (boxes[positionBox].getStatusBox() == "FREE") positionBox ++;
+          else{
+            checked = false;
+            break;
+          }
+
+        }
+        counterJump++;
+        exitCounter++;
       }
     }
     return checked;
