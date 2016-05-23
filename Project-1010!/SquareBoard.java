@@ -233,7 +233,7 @@ public class SquareBoard extends Board{
 
     while (exitCounter < sizeOfPiece){
 
-      if (positionBox > numberOfBoxes){
+      if ((positionBox > numberOfBoxes) || (positionBox >= numberOfBoxes - dimension)){
         checked = false;
         break;
       }
