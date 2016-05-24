@@ -35,7 +35,9 @@ public abstract class Board{
   //public abstract void checkPositions(Piece piece, byte row, byte column);
   public abstract boolean checkPositions(Piece piece, int positionBox);
 
-  public void printBoard(){
+  public abstract int deleteRowColumn();
+
+  public void printNeighborhood(){
     for (int counterRows = 0; counterRows < numberOfBoxes; counterRows++) {
       for (int counterColumns = 0; counterColumns < numberOfBoxes; counterColumns++)
           System.out.print("| " + neighborhood[counterRows][counterColumns] + " | ");
@@ -43,17 +45,19 @@ public abstract class Board{
     }
   }
 
-  public abstract int deleteRowColumn();
 
-
-  public void testDelete(){
+  public void testDelete(){ //Metodo solo de prueba, para verificar la liberacion de filas y columnas, tambien sumar puntaje.
     Status fullBox = new FullBox();
-    byte counterJump = 0, positionBoxR = 4, positionBoxC = 7;
+    byte counterJump = 0, positionBoxR = 10, positionBoxC = 7, positionBoxR2 = 20;
     while(counterJump < dimension){
       boxes[positionBoxR].setStatus(fullBox);
       boxes[positionBoxC].setStatus(fullBox);
+      boxes[positionBoxR2].setStatus(fullBox);
       positionBoxR ++;
-      positionBoxC += dimension;
+      positionBoxR2 ++;
+      if ((positionBoxC + dimension) <= numberOfBoxes){
+        positionBoxC += dimension;
+      }
       counterJump ++;
     }
   }

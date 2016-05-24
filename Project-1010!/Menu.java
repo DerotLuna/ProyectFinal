@@ -14,12 +14,12 @@ public class Menu{
     // Aqui se deberian cargar los usuarios en el array, los que se conozcan, supongamos que por los momentos existen solo dos.
     players[0] = new Player("Ruben Luna");
     players[1] = new Player("Alejandro Martinez");
+    players[2] = new Player("Carlos Alonzo");
     byte dimension = 10;
-    world = new World(players[0], dimension);
+    world = new World(players[1], dimension);
   }
 
   public void playGame(){
-    world.initializeWorld();
-    world.movePiece();
+    world.worldControl();
   }
 }
