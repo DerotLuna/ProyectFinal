@@ -43,6 +43,11 @@ public class SquareBoard extends Board{
     if (typePiece == "Square") checked = squareEvaluations(sizePiece, positionBox, checked);
     else if (typePiece == "Vertical Line") checked = lineEvaluations(sizePiece, positionBox, 2, checked);
     else if (typePiece == "Horizontal Line") checked = lineEvaluations(sizePiece, positionBox, 1, checked);
+    else if (typePiece == "L") checked = lEvaluation(sizePiece , positionBox ,checked);
+    else if (typePiece == "L hacia la izquierda") checked = leftInvestedLEvaluation(sizePiece , positionBox ,checked);
+    else if (typePiece == "L invertida") checked = investedLEvaluation(sizePiece , positionBox ,checked);
+    else checked = leftInvestedLEvaluation(sizePiece , positionBox ,checked);
+
     if (checked == true){
       addPiece(typePiece, sizePiece, positionBox , color);
     }
@@ -338,13 +343,69 @@ public class SquareBoard extends Board{
   }
 
   private void addL(byte sizeL, int positionBox, Color color){
+    Status fullBox = new FullBox();
+    byte exitCounter = 0;
 
+    while (exitCounter < sizeL){
+      boxes[positionBox].setStatus(fullBox);
+      boxes[positionBox].setColorBox(color);
+        if (exitCounter == 0) positionBox += dimension;
+        else positionBox ++;
+      exitCounter ++;
+    }
+  }
+
+
+  public void addLeftL(byte sizeLeftL, int positionBox, Color color){
+    Status fullBox = new FullBox();
+    byte exitCounter = 0;
+    byte counterJump = 1;
+
+    while (exitCounter < sizeLeftL){
+      boxes[positionBox].setStatus(fullBox);
+      boxes[positionBox].setColorBox(color);
+        if (counterJump == sizeLeftL - 1) positionBox -= dimension;
+        else positionBox ++;
+      exitCounter ++;
+      counterJump ++;
+    }
+  }
+
+  public void addInvestedL(byte sizeInvestedL, int positionBox, Color color){
+    Status fullBox = new FullBox();
+    byte exitCounter = 0;
+
+    while (exitCounter < sizeInvestedL){
+      boxes[positionBox].setStatus(fullBox);
+      boxes[positionBox].setColorBox(color);
+        if (exitCounter == 0) positionBox -= dimension;
+        else positionBox ++;
+      exitCounter ++;
+    }
+  }
+
+  public void addLeftInvestedL(byte sizeInvestedLeftL, int positionBox, Color color){
+    Status fullBox = new FullBox();
+    byte exitCounter = 0;
+    byte counterJump = 1;
+    while (exitCounter < sizeInvestedLeftL){
+      boxes[positionBox].setStatus(fullBox);
+      boxes[positionBox].setColorBox(color);
+        if (counterJump == sizeInvestedLeftL - 1)positionBox += dimension;
+        else positionBox ++;
+      counterJump ++;
+      exitCounter ++;
+    }
   }
 
   public void addPiece(String typePiece, byte sizePiece,int positionBox ,Color color){
     if (typePiece == "Square") addSquare(sizePiece, positionBox, color);
-    else if (typePiece == "Vertical Line") addLine(sizePiece, positionBox, 1, color);
-    else if (typePiece == "Horizontal Line") addLine(sizePiece, positionBox, 2, color);
+    else if (typePiece == "Vertical Line") addLine(sizePiece, positionBox, 2, color);
+    else if (typePiece == "Horizontal Line") addLine(sizePiece, positionBox, 1, color);
+    else if (typePiece == "L") addL(sizePiece, positionBox, color);
+    else if (typePiece == "L hacia la izquierda") addLeftL(sizePiece, positionBox, color);
+    else if (typePiece == "L invertida") addInvestedL(sizePiece, positionBox, color);
+    else  addLeftInvestedL (sizePiece, positionBox, color);
   }
 
   public void liberateBoxes(int [] delete, byte storedElements, byte option){
