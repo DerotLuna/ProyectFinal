@@ -1,6 +1,7 @@
 import java.util.Arrays;
 
 public abstract class Board{
+  protected final byte ID;
   protected Box[] boxes;
   protected int numberOfBoxes;
   protected boolean[][] neighborhood;
@@ -8,9 +9,10 @@ public abstract class Board{
   /* Buscar la manera de no tener la dimension, porque en un tablero en forma de rombo ya la dimension como la definimos
      no nos serviria. O cualquier otro tipo de tablero que no sea ni cuadrado o rectangular*/
 
-  public Board(byte dimension){
+  public Board(byte dimension, byte id){
     this.dimension = dimension;
     this.numberOfBoxes = dimension*dimension;
+    this.ID = id;
     //this.numberOfBoxes = columns*rows;
     boxes = new Box[numberOfBoxes];
     for (byte counter = 0; counter < numberOfBoxes; counter++) { //no creo que se necesiten mas de 127 casillas, digo que el max sera 100.
@@ -27,12 +29,12 @@ public abstract class Board{
   public Box getBox(int positionBox){
     return this.boxes[positionBox];
   }
+  public byte getIDBoard(){
+    return this.ID;
+  }
 
   public abstract void shapeBoard();
 
-  //public abstract void typeOfPiece();
-
-  //public abstract void checkPositions(Piece piece, byte row, byte column);
   public abstract boolean checkPositions(Piece piece, int positionBox);
 
   public abstract int deleteRowColumn();
@@ -44,7 +46,6 @@ public abstract class Board{
       System.out.println();
     }
   }
-
 
   public void testDelete(){ //Metodo solo de prueba, para verificar la liberacion de filas y columnas, tambien sumar puntaje.
     Status fullBox = new FullBox();
